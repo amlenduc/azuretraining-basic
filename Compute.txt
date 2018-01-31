@@ -1,0 +1,5 @@
+Sizing & Pricing Virtual Machines in Azure
+
+SKUs come in families called Series.  At the time of this writing Azure has the following VM series:
+
+https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-general
