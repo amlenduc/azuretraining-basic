@@ -1,2 +1,13 @@
-If you don't already have a Microsoft Azure subscription, get started with a FREE trial account.
+Pre-requisites:
+
+You need a windows based desktop/laptop with any browser install. Machine should be connected to internet as demo is on cloud
+
+1.If you don't already have a Microsoft Azure subscription, get started with a FREE trial account.
 http://go.microsoft.com/fwlink/?LinkId=330212
+
+2. Install VS2017
+https://www.visualstudio.com/downloads/ - Select community edition
+Select Azure SDK while installing VS2017
+
+3. Azure Storage Emulator
+https://go.microsoft.com/fwlink/?LinkId=717179&clcid=0x4009
