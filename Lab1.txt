@@ -27,3 +27,7 @@ Set-AzureStorageBlobContent -File "C:\templates\Parameters.json" -Context $conte
 	$templatePath = "https://" + $storageName + ".blob.core.windows.net/templates/CreateVMTemplate.json"
 	$parametersPath = "https://" + $storageName + ".blob.core.windows.net/templates/Parameters.json"
 New-AzureRmResourceGroupDeployment -ResourceGroupName "myResourceGroup" -Name "myDeployment" -TemplateUri $templatePath -TemplateParameterUri $parametersPath 
+
+Note:
+Azure Quick start Template
+https://azure.microsoft.com/en-us/resources/templates/?term=VM
