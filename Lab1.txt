@@ -1,0 +1,29 @@
+Create a Windows virtual machine from a Resource Manager template
+	Install Azure PowerShell - https://docs.microsoft.com/en-us/azure/powershell-install-configure
+	Create a resource group
+	Get a list of available locations where resources can be created
+		Get-AzureRmLocation | sort DisplayName | Select DisplayName
+	Create the resource group in the location that you select. This example shows the creation of a resource group named myResourceGroup in the West US location
+		New-AzureRmResourceGroup -Name "myResourceGroup" -Location "West US"
+	Create Template CreateVMTemplate.json
+	Create a file named Parameters.json and add this JSON code to it:
+	Create a new storage account and container:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		$storageName = "st" + (Get-Random)
+New-AzureRmStorageAccount -ResourceGroupName "myResourceGroup" -AccountName $storageName -Location "West US" -SkuName "Standard_LRS" -Kind Storage
+$accountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName myResourceGroup -Name $storageName).Value[0]
+$context = New-AzureStorageContext -StorageAccountName $storageName -StorageAccountKey $accountKey 
+New-AzureStorageContainer -Name "templates" -Context $context -Permission Container
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	Upload the files to the storage account:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Set-AzureStorageBlobContent -File "C:\templates\CreateVMTemplate.json" -Context $context -Container "templates"
+Set-AzureStorageBlobContent -File "C:\templates\Parameters.json" -Context $context -Container templates
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	Create the resources
+	Deploy the template using the parameters:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	$templatePath = "https://" + $storageName + ".blob.core.windows.net/templates/CreateVMTemplate.json"
+	$parametersPath = "https://" + $storageName + ".blob.core.windows.net/templates/Parameters.json"
+New-AzureRmResourceGroupDeployment -ResourceGroupName "myResourceGroup" -Name "myDeployment" -TemplateUri $templatePath -TemplateParameterUri $parametersPath 
